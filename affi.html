@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 25th Birthday 🎉</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Arial,sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    color:white;
+}
+
+/* ===== BACKGROUND BLUR LAYER ===== */
+.bg-layer{
+    position:fixed;
+    inset:0;
+    background-size:cover;
+    background-position:center;
+    filter: blur(12px);
+    transform: scale(1.1);
+    z-index:-3;
+    transition: background-image .8s ease;
+}
+
+/* Overlay gelap supaya teks jelas */
+.bg-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:-2;
+}
+
+/* ===== ANIMASI ===== */
+.fireworks,.balloons{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+}
+
+.fire{
+    position:absolute;
+    font-size:30px;
+    animation:explode 4s infinite;
+    opacity:0;
+}
+.fire:nth-child(1){left:15%;animation-delay:0s}
+.fire:nth-child(2){left:40%;animation-delay:1s}
+.fire:nth-child(3){left:65%;animation-delay:2s}
+.fire:nth-child(4){left:85%;animation-delay:3s}
+
+@keyframes explode{
+    0%{bottom:0;opacity:0;transform:scale(0)}
+    30%{opacity:1;transform:scale(1.2)}
+    60%{opacity:0;transform:scale(1.6)}
+    100%{bottom:100%;opacity:0}
+}
+
+.balloon{
+    position:absolute;
+    bottom:-20%;
+    font-size:36px;
+    animation:float 18s linear infinite;
+}
+.balloon:nth-child(1){left:20%}
+.balloon:nth-child(2){left:50%;animation-duration:22s}
+.balloon:nth-child(3){left:75%;animation-duration:20s}
+
+@keyframes float{
+    to{transform:translateY(-140vh)}
+}
+
+/* ===== SLIDE ===== */
+.slide{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    opacity:0;
+    transform:translateX(100%);
+    transition:.8s;
+}
+
+.slide.active{
+    opacity:1;
+    transform:translateX(0);
+}
+
+.slide.prev{
+    transform:translateX(-100%);
+}
+
+/* ===== FOTO ===== */
+.photo{
+    width:170px;
+    height:170px;
+    object-fit:cover;
+    border-radius:20px;
+    border:3px solid gold;
+    box-shadow:0 0 20px rgba(255,215,0,.8);
+    margin-bottom:20px;
+}
+
+/* ===== ANGKA 25 ===== */
+.age{
+    font-size:6em;
+    font-weight:bold;
+    color:gold;
+    text-shadow:0 0 30px gold;
+    animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    to{text-shadow:0 0 50px gold}
+}
+
+/* ===== KUE ===== */
+.cake{font-size:90px;margin:10px}
+.candle{font-size:28px;cursor:pointer}
+
+/* ===== TEKS ===== */
+h1{font-size:2em;margin-bottom:12px}
+p{max-width:600px;line-height:1.6}
+
+/* ===== NAV ===== */
+.nav{
+    margin-top:25px;
+    display:flex;
+    gap:12px;
+}
+
+button{
+    padding:12px 22px;
+    border-radius:25px;
+    border:none;
+    cursor:pointer;
+    font-size:1em;
+    background:linear-gradient(135deg,#ffd700,#ff9800);
+}
+
+button:hover{opacity:.85}
+
+/* ===== MUSIK ===== */
+.music-btn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    border:none;
+    font-size:1.4em;
+    background:gold;
+    color:black;
+    cursor:pointer;
+    z-index:10;
+}
+
+/* ===== VIDEO ===== */
+video{
+    position:fixed;
+    inset:0;
+    object-fit:cover;
+    z-index:-4;
+    opacity:0;
+    transition:.8s;
+}
+
+video.active{
+    opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<!-- BLUR BACKGROUND -->
+<div class="bg-layer" id="bgLayer"></div>
+<div class="bg-overlay"></div>
+
+<!-- ANIMASI -->
+<div class="fireworks">
+    <div class="fire">🎆</div>
+    <div class="fire">🎇</div>
+    <div class="fire">✨</div>
+    <div class="fire">🎆</div>
+</div>
+
+<div class="balloons">
+    <div class="balloon">🎈</div>
+    <div class="balloon">🎈</div>
+    <div class="balloon">🎈</div>
+</div>
+
+<!-- VIDEO -->
+<video id="videoBg" loop muted>
+    <source src="img/fireworks.mp4" type="video/mp4">
+</video>
+
+<!-- MUSIK -->
+<audio id="music" loop>
+    <source src="img/birthday.mp3" type="audio/mpeg">
+</audio>
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+
+<!-- SLIDE 1 -->
+<div class="slide active" data-bg="img/bg1.jpg">
+    <img src="img/foto_awal.jpg" class="photo">
+    <div class="age">25</div>
+    <h1>🎉 Happy Birthday Afi 🎉</h1>
+    <p>Selamat datang di usia 25 tahun.  
+       Semoga hidupmu selalu penuh cahaya dan kebahagiaan.</p>
+    <div class="nav">
+        <button onclick="next()">Next ➜</button>
+    </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" data-bg="img/bg2.jpg">
+    <div class="cake">🎂</div>
+    <div class="candle" onclick="blow()">🔥 Tiup Lilin</div>
+    <h1>✨ 25 Tahunmu yang berharga untuk setiap orang yang menyayangimu ✨</h1>
+    <p> Kejamkan mata kamu dan berdoa yah sayang aa ,lilinnya memang ga bisa ditiup,
+        tapi kalo di pencet apinya lilinya padam kok hehe .</p>
+    <div class="nav">
+        <button onclick="prev()">⟵ Back</button>
+        <button onclick="next()">Next ➜</button>
+    </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" data-bg="img/bg3.jpg">
+    <h1>🎁 Doa & Harapan 🎁</h1>
+    <p>Tentunya aa selalu berdoa yang terbaik untuk kamu
+        jadilah anak yang berbakti, kaka yang bisa mendidik adiknya,
+        serta wanita hebat yang terus setia disamping aku .</p>
+    <div class="nav">
+        <button onclick="prev()">⟵ Back</button>
+        <button onclick="next()">Next ➜</button>
+    </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide" data-bg="img/bg4.jpg" data-video="true">
+    <img src="img/foto_akhir.jpg" class="photo">
+    <h1>🎂 Selamat Ulang Tahun 🎂</h1>
+    <p>INI BONUSS AKU CIUM DULU PACAR AKU YANG ULANG TAHUN HEHE 🌟</p>
+    <div class="nav">
+        <button onclick="prev()">⟵ Back</button>
+    </div>
+</div>
+
+<script>
+let slides=document.querySelectorAll('.slide');
+let bgLayer=document.getElementById('bgLayer');
+let video=document.getElementById('videoBg');
+let music=document.getElementById('music');
+let index=0;
+
+function show(){
+    slides.forEach((s,i)=>{
+        s.classList.remove('active','prev');
+        if(i<index)s.classList.add('prev');
+    });
+
+    let current=slides[index];
+    current.classList.add('active');
+
+    let bg=current.getAttribute('data-bg');
+    if(bg){
+        bgLayer.style.backgroundImage=`url('${bg}')`;
+    }
+
+    if(current.dataset.video){
+        video.classList.add('active');
+        video.play();
+    }else{
+        video.classList.remove('active');
+        video.pause();
+    }
+}
+
+function next(){ if(index<slides.length-1){index++;show();} }
+function prev(){ if(index>0){index--;show();} }
+
+function toggleMusic(){
+    if(music.paused) music.play();
+    else music.pause();
+}
+
+function blow(){
+    document.querySelector('.candle').textContent="💨 Lilin Padam!";
+}
+
+window.onload=show;
+
+/* SWIPE HP */
+let startX=0;
+document.addEventListener('touchstart',e=>startX=e.touches[0].clientX);
+document.addEventListener('touchend',e=>{
+    let d=e.changedTouches[0].clientX-startX;
+    if(d<-50)next();
+    if(d>50)prev();
+});
+</script>
+
+</body>
+</html>
